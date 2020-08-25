@@ -1,0 +1,12 @@
+server:
+  port: 5337
+#thymeleaf配置
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    cache: false
+  #静态资源配置
+  resources:
+    static-locations: classpath:/
