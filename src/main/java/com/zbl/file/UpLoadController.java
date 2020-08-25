@@ -1,8 +1,14 @@
 package com.zbl.file;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * @Author: zbl
@@ -17,5 +23,86 @@ public class UpLoadController {
     @GetMapping
     public String toPage() {
         return "upload";
+    }
+
+    /**
+     * 通过multipart/from-data的传输类型上传一个文件。
+     */
+    @PostMapping(value = "/upload1", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseBody
+    public String upload1(@RequestPart(value = "file", required = false) MultipartFile file) {
+
+        return "上传成功";
+
+    }
+
+    /**
+     * 通过multipart/from-data的传输类型上传多个文件
+     */
+    @PostMapping(value = "/upload2", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseBody
+    public String upload2(@RequestPart(value = "file", required = false) MultipartFile file) {
+
+        return "上传成功";
+
+    }
+
+    /**
+     * 通过octect-stream的传输类型上传文件，文件名在url参数中
+     */
+    @PostMapping(value = "/upload3", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public String upload3(@RequestPart(value = "file", required = false) MultipartFile file) {
+
+        return "上传成功";
+
+    }
+
+    /**
+     * 通过octect-stream的传输类型上传文件，文件名在request头中
+     */
+    @PostMapping(value = "/upload4", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public String upload4(@RequestPart(value = "file", required = false) MultipartFile file) {
+
+        return "上传成功";
+
+    }
+
+    /**
+     * 通过octect-stream的传输类型上传文件，文件名在uri中
+     */
+    @PostMapping(value = "/upload5", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public String upload5(@RequestPart(value = "file", required = false) MultipartFile file) {
+
+        return "上传成功";
+
+    }
+
+    public static boolean uploadFile(byte[] file, String filePath, String fileName) {
+        //默认文件上传成功
+        boolean flag = true;
+        //new一个文件对象实例
+        File targetFile = new File(filePath);
+        //如果当前文件目录不存在就自动创建该文件或者目录
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+
+        try {
+            //通过文件流实现文件上传
+            FileOutputStream fileOutputStream = new FileOutputStream(filePath + fileName);
+            fileOutputStream.write(file);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("文件不存在异常");
+            flag = false;
+        } catch (IOException ioException) {
+            System.out.println("javaIO流异常");
+            flag = false;
+        }
+        return flag;
     }
 }
