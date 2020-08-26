@@ -2,10 +2,13 @@ package com.zbl.file;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,7 +38,7 @@ public class UpLoadController {
     @PostMapping(value = "/upload1", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
     public ResultInfo<String> upload1(@RequestPart(value = "file", required = false) MultipartFile file) {
-        upload(file);
+        upload(file, file.getOriginalFilename());
         return new ResultInfo<>("0","上传成功");
 
     }
@@ -47,7 +50,7 @@ public class UpLoadController {
     @ResponseBody
     public ResultInfo<String> upload2(@RequestPart(value = "file", required = false) MultipartFile[] file) {
         for (MultipartFile f : file) {
-            upload(f);
+            upload(f, f.getOriginalFilename());
         }
         return new ResultInfo<>("0","上传成功");
 
@@ -58,9 +61,11 @@ public class UpLoadController {
      */
     @PostMapping(value = "/upload3", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public String upload3(@RequestPart(value = "file", required = false) MultipartFile file) {
-        upload(file);
-        return "上传成功";
+    public ResultInfo<String> upload3(HttpServletRequest request, String fileName) throws IOException {
+        ServletInputStream inputStream = request.getInputStream();
+        MultipartFile file = new MockMultipartFile(fileName, inputStream);
+        upload(file, fileName);
+        return new ResultInfo<>("0","上传成功");
 
     }
 
@@ -69,25 +74,29 @@ public class UpLoadController {
      */
     @PostMapping(value = "/upload4", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public String upload4(@RequestPart(value = "file", required = false) MultipartFile file) {
-        upload(file);
-        return "上传成功";
+    public ResultInfo<String> upload4(HttpServletRequest request) throws IOException {
+        String fileName = request.getHeader("fileName");
+        ServletInputStream inputStream = request.getInputStream();
+        MultipartFile file = new MockMultipartFile(fileName, inputStream);
+        upload(file, fileName);
+        return new ResultInfo<>("0","上传成功");
 
     }
 
     /**
      * 通过octect-stream的传输类型上传文件，文件名在uri中
      */
-    @PostMapping(value = "/upload5", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @PostMapping(value = "/upload5/{fileName}", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public String upload5(@RequestPart(value = "file", required = false) MultipartFile file) {
-        upload(file);
-        return "上传成功";
+    public ResultInfo<String> upload5(HttpServletRequest request, @PathVariable("fileName") String fileName) throws IOException {
+        ServletInputStream inputStream = request.getInputStream();
+        MultipartFile file = new MockMultipartFile(fileName, inputStream);
+        upload(file, fileName);
+        return new ResultInfo<>("0","上传成功");
 
     }
 
-    public void upload(MultipartFile file) {
-        String fileName = file.getOriginalFilename();
+    public void upload(MultipartFile file, String fileName) {
         File dest = new File(fileDirectory + "/" + fileName);
         //如果文件目录不存在，创建目录
         if (!dest.getParentFile().exists()) {

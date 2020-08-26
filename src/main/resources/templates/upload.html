@@ -27,47 +27,56 @@
         <hr>
         <form enctype="multipart/form-data">
             <div style="margin-left: 68px;" class="layui-inline">
-                <button type="button" class="layui-btn" id="test1">
-                    <i class="layui-icon">&#xe67c;</i>通过multipart/from-data的传输类型上传一个文件
+                <button type="button" class="layui-btn" id="test1" style="width: 536px; text-align: left">
+                    <i class="layui-icon">&#xe67c;</i>通过multipart/from-data的传输类型上传一个文件(直接点击此按钮上传文件)
                 </button>
-                <!--            <div style="margin-left: 68px;" class="layui-inline">-->
-                <!--                <i class="layui-icon">&#xe67c;</i><label>通过multipart/from-data的传输类型上传一个文件</label>-->
-                <!--                <input type="file" name="file"/>-->
-                <!--            </div>-->
             </div>
         </form>
         <hr>
 
         <form enctype="multipart/form-data" method="post" action="/upload/upload2" id="upload2">
             <div style="margin-left: 68px;" class="layui-inline">
-                <div class="layui-btn">
+                <div class="layui-btn" style="width: 536px; text-align: left">
                     <i class="layui-icon">&#xe67c;</i><label>通过multipart/from-data的传输类型上传多个文件</label>
-                    <input type="file" name="file" multiple="multiple"/>
                 </div>
+                <input style="text-align: right" id="fileUpload2" type="file" name="file" multiple="multiple"/>
             </div>
             <div class="js_upload2 layui-btn">上传</div>
         </form>
         <hr>
 
-        <!--    <div style="margin-left: 68px;">-->
-        <!--        <button type="button" class="layui-btn" id="test2">-->
-        <!--            <i class="layui-icon">&#xe67c;</i>通过octect-stream的传输类型上传文件，文件名在url参数中-->
-        <!--        </button>-->
-        <!--    </div>-->
-        <!--    <hr>-->
+        <form id="upload3">
+            <div style="margin-left: 68px;" class="layui-inline">
+                <div class="layui-btn" style="width: 536px; text-align: left">
+                    <i class="layui-icon">&#xe67c;</i><label>通过octect-stream的传输类型上传文件，文件名在url参数中</label>
+                </div>
+                <input id="fileUpload3" type="file" name="file"/>
+            </div>
+            <div class="js_upload3 layui-btn">上传</div>
+        </form>
+        <hr>
 
-        <!--    <div style="margin-left: 68px;">-->
-        <!--        <button type="button" class="layui-btn" id="test3">-->
-        <!--            <i class="layui-icon">&#xe67c;</i>通过octect-stream的传输类型上传文件，文件名在request头中-->
-        <!--        </button>-->
-        <!--    </div>-->
-        <!--    <hr>-->
+        <form id="upload4">
+            <div style="margin-left: 68px;" class="layui-inline">
+                <div class="layui-btn" style="width: 536px; text-align: left">
+                    <i class="layui-icon">&#xe67c;</i><label>通过octect-stream的传输类型上传文件，文件名在request头中</label>
+                </div>
+                <input id="fileUpload4" type="file" name="file"/>
+            </div>
+            <div class="js_upload4 layui-btn">上传</div>
+        </form>
+        <hr>
 
-        <!--    <div style="margin-left: 68px;">-->
-        <!--        <button type="button" class="layui-btn" id="test4">-->
-        <!--            <i class="layui-icon">&#xe67c;</i>通过octect-stream的传输类型上传文件，文件名在uri中-->
-        <!--        </button>-->
-        <!--    </div>-->
+        <form id="upload5">
+            <div style="margin-left: 68px;" class="layui-inline">
+                <div class="layui-btn" style="width: 536px; text-align: left">
+                    <i class="layui-icon">&#xe67c;</i><label>通过octect-stream的传输类型上传文件，文件名在uri中</label>
+                </div>
+                <input id="fileUpload5" type="file" name="file"/>
+            </div>
+            <div class="js_upload5 layui-btn">上传</div>
+        </form>
+        <hr>
 
     </div>
 
@@ -96,14 +105,90 @@
     });
 
     $(".js_upload2").click(function () {
+        if ($('#fileUpload2').val().length == 0) {
+            layer.msg("请先选择文件再上传");
+            return;
+        }
         $("#upload2").ajaxSubmit(
             function (data) {
-                if(data.code == "0") {
+                if (data.code == "0") {
                     layer.msg("上传成功");
                     setTimeout('window.location.reload()', 2000);
                 }
             }
         )
+    });
+
+    $(".js_upload3").click(function () {
+        if ($('#fileUpload3').val().length == 0) {
+            layer.msg("请先选择文件再上传");
+            return;
+        }
+        var fileName = $('#fileUpload3')[0].files[0].name;
+        $.ajax({
+            dataType: 'json',
+            type: "post",
+            url: "/upload/upload3?fileName=" + fileName,
+            async: true,
+            data: $('#fileUpload3')[0].files[0],
+            processData: false, // 使数据不做处理
+            contentType: "application/octet-stream",
+            success: function (data) {
+                if (data.code == "0") {
+                    layer.msg("上传成功");
+                    setTimeout('window.location.reload()', 2000);
+                }
+            }
+        });
+    })
+
+    $(".js_upload4").click(function () {
+        if ($('#fileUpload4').val().length == 0) {
+            layer.msg("请先选择文件再上传");
+            return;
+        }
+        var fileName = $('#fileUpload4')[0].files[0].name;
+        $.ajax({
+            dataType: 'json',
+            type: "post",
+            url: "/upload/upload4",
+            beforeSend: function (request) {
+                request.setRequestHeader("fileName", fileName);
+            },
+            async: true,
+            data: $('#fileUpload4')[0].files[0],
+            processData: false, // 使数据不做处理
+            contentType: "application/octet-stream",
+            success: function (data) {
+                if (data.code == "0") {
+                    layer.msg("上传成功");
+                    setTimeout('window.location.reload()', 2000);
+                }
+            }
+        });
+    })
+
+    $(".js_upload5").click(function (xhr) {
+        if ($('#fileUpload5').val().length == 0) {
+            layer.msg("请先选择文件再上传");
+            return;
+        }
+        var fileName = $('#fileUpload5')[0].files[0].name;
+        $.ajax({
+            dataType: 'json',
+            type: "post",
+            url: "/upload/upload5/" + fileName,
+            async: true,
+            data: $('#fileUpload5')[0].files[0],
+            processData: false, // 使数据不做处理
+            contentType: "application/octet-stream",
+            success: function (data) {
+                if (data.code == "0") {
+                    layer.msg("上传成功");
+                    setTimeout('window.location.reload()', 2000);
+                }
+            }
+        });
     })
 
 </script>

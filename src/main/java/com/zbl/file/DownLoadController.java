@@ -81,8 +81,6 @@ public class DownLoadController {
     @GetMapping(value = "/downloadFile/{fileName}")
     public void download(@PathVariable("fileName") String fileName, HttpServletRequest request, HttpServletResponse response) {
         try {
-//            String uuid = UUID.randomUUID().toString();
-//            String srcPath = System.getProperty("java.io.tmpdir") + "/" + uuid + "_" + fileName;
             File srcFile = new File("D:\\work\\develop\\vamtoo-git\\file-demo\\src\\main\\resources\\file\\" + fileName);
             if (!srcFile.exists()) {
                 System.out.println("文件下载失败，原因是：文件不存在");
