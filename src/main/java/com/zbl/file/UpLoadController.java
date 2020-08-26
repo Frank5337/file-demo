@@ -1,5 +1,6 @@
 package com.zbl.file;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,9 @@ import java.io.IOException;
 @RequestMapping("/upload")
 public class UpLoadController {
 
+    @Value("${fileDirectory}")
+    private String fileDirectory;
+
     @GetMapping
     public String toPage() {
         return "upload";
@@ -30,9 +34,9 @@ public class UpLoadController {
      */
     @PostMapping(value = "/upload1", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
-    public String upload1(@RequestPart(value = "file", required = false) MultipartFile file) {
-
-        return "上传成功";
+    public ResultInfo<String> upload1(@RequestPart(value = "file", required = false) MultipartFile file) {
+        upload(file);
+        return new ResultInfo<>("0","上传成功");
 
     }
 
@@ -41,9 +45,11 @@ public class UpLoadController {
      */
     @PostMapping(value = "/upload2", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
-    public String upload2(@RequestPart(value = "file", required = false) MultipartFile file) {
-
-        return "上传成功";
+    public ResultInfo<String> upload2(@RequestPart(value = "file", required = false) MultipartFile[] file) {
+        for (MultipartFile f : file) {
+            upload(f);
+        }
+        return new ResultInfo<>("0","上传成功");
 
     }
 
@@ -53,7 +59,7 @@ public class UpLoadController {
     @PostMapping(value = "/upload3", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public String upload3(@RequestPart(value = "file", required = false) MultipartFile file) {
-
+        upload(file);
         return "上传成功";
 
     }
@@ -64,7 +70,7 @@ public class UpLoadController {
     @PostMapping(value = "/upload4", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public String upload4(@RequestPart(value = "file", required = false) MultipartFile file) {
-
+        upload(file);
         return "上传成功";
 
     }
@@ -75,9 +81,27 @@ public class UpLoadController {
     @PostMapping(value = "/upload5", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public String upload5(@RequestPart(value = "file", required = false) MultipartFile file) {
-
+        upload(file);
         return "上传成功";
 
+    }
+
+    public void upload(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        File dest = new File(fileDirectory + "/" + fileName);
+        //如果文件目录不存在，创建目录
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+            System.out.println("创建目录" + dest);
+
+        }
+
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            System.out.println("文件上传失败" + dest);
+            e.printStackTrace();
+        }
     }
 
     public static boolean uploadFile(byte[] file, String filePath, String fileName) {
