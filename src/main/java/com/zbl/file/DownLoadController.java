@@ -63,7 +63,7 @@ public class DownLoadController {
         try {
 //            String uuid = UUID.randomUUID().toString();
 //            String srcPath = System.getProperty("java.io.tmpdir") + "/" + uuid + "_" + fileName;
-            File srcFile = new File("D:\\work\\develop\\vamtoo-git\\file-demo\\src\\main\\resources\\file\\" + fileName);
+            File srcFile = new File(fileDirectory + fileName);
             if (!srcFile.exists()) {
                 System.out.println("文件下载失败，原因是：文件不存在");
             }
@@ -81,11 +81,30 @@ public class DownLoadController {
     @GetMapping(value = "/downloadFile/{fileName}")
     public void download(@PathVariable("fileName") String fileName, HttpServletRequest request, HttpServletResponse response) {
         try {
-            File srcFile = new File("D:\\work\\develop\\vamtoo-git\\file-demo\\src\\main\\resources\\file\\" + fileName);
+            File srcFile = new File(fileDirectory+ fileName);
             if (!srcFile.exists()) {
                 System.out.println("文件下载失败，原因是：文件不存在");
             }
             DownloadUtil.writeFileToResponse(request, response, fileName, srcFile, DownloadType.UriOs);
+            //srcFile.delete();
+        } catch (Exception e) {
+            System.out.println(String.format("文件下载失败，原因是：%s", e));
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 下载
+     */
+    @GetMapping(value = "/downloadFileTest/{fileName}")
+    public void downloadTest(@PathVariable("fileName") String fileName, HttpServletRequest request, HttpServletResponse response) {
+        try {
+//            File srcFile = new File(fileDirectory+ fileName);
+            File srcFile = new File(fileDirectory+ "run.sh");
+            if (!srcFile.exists()) {
+                System.out.println("文件下载失败，原因是：文件不存在");
+            }
+            DownloadUtil.writeFileToResponse(request, response, "run.sh", srcFile, DownloadType.UriOs);
             //srcFile.delete();
         } catch (Exception e) {
             System.out.println(String.format("文件下载失败，原因是：%s", e));

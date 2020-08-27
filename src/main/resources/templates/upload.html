@@ -113,7 +113,8 @@
             function (data) {
                 if (data.code == "0") {
                     layer.msg("上传成功");
-                    setTimeout('window.location.reload()', 2000);
+                    $('#fileUpload2').val('');
+                    //setTimeout('window.location.reload()', 2000);
                 }
             }
         )
@@ -124,7 +125,7 @@
             layer.msg("请先选择文件再上传");
             return;
         }
-        var fileName = $('#fileUpload3')[0].files[0].name;
+        var fileName = encodeURIComponent($('#fileUpload3')[0].files[0].name);
         $.ajax({
             dataType: 'json',
             type: "post",
@@ -136,7 +137,8 @@
             success: function (data) {
                 if (data.code == "0") {
                     layer.msg("上传成功");
-                    setTimeout('window.location.reload()', 2000);
+                    $('#fileUpload3').val('');
+                    //setTimeout('window.location.reload()', 2000);
                 }
             }
         });
@@ -147,7 +149,7 @@
             layer.msg("请先选择文件再上传");
             return;
         }
-        var fileName = $('#fileUpload4')[0].files[0].name;
+        var fileName = encodeURIComponent($('#fileUpload4')[0].files[0].name);
         $.ajax({
             dataType: 'json',
             type: "post",
@@ -162,7 +164,8 @@
             success: function (data) {
                 if (data.code == "0") {
                     layer.msg("上传成功");
-                    setTimeout('window.location.reload()', 2000);
+                    $('#fileUpload4').val('');
+                    //setTimeout('window.location.reload()', 2000);
                 }
             }
         });
@@ -173,7 +176,7 @@
             layer.msg("请先选择文件再上传");
             return;
         }
-        var fileName = $('#fileUpload5')[0].files[0].name;
+        var fileName = encodeURIComponent($('#fileUpload5')[0].files[0].name);
         $.ajax({
             dataType: 'json',
             type: "post",
@@ -185,7 +188,8 @@
             success: function (data) {
                 if (data.code == "0") {
                     layer.msg("上传成功");
-                    setTimeout('window.location.reload()', 2000);
+                    $('#fileUpload5').val('');
+                    //setTimeout('window.location.reload()', 2000);
                 }
             }
         });

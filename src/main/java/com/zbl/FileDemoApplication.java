@@ -2,6 +2,8 @@ package com.zbl;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
  * @Author: zbl
@@ -11,7 +13,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
-public class FileDemoApplication {
+public class FileDemoApplication extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(FileDemoApplication.class);
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(FileDemoApplication.class, args);

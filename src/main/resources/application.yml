@@ -12,3 +12,4 @@ spring:
     static-locations: classpath:/
 
 fileDirectory: D:\work\develop\vamtoo-git\file-demo\src\main\resources\file\
+#fileDirectory: /home/zbl/file/

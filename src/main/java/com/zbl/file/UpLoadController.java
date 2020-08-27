@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 /**
  * @Author: zbl
@@ -76,6 +77,7 @@ public class UpLoadController {
     @ResponseBody
     public ResultInfo<String> upload4(HttpServletRequest request) throws IOException {
         String fileName = request.getHeader("fileName");
+        fileName = URLDecoder.decode(fileName, "UTF-8");
         ServletInputStream inputStream = request.getInputStream();
         MultipartFile file = new MockMultipartFile(fileName, inputStream);
         upload(file, fileName);

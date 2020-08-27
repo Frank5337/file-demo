@@ -50,7 +50,7 @@
             cols: [
                 [
                     // {type: "checkbox", fixed: "left", width: 50},
-                    {field: 'fileName', title: '文件名', minWidth: 100, align: "center"},
+                    {field: 'fileName', title: '文件名', minWidth: 100, align: "center", sort: true},
                     {fixed: 'right', title: '下载', toolbar: '#opbar', width: 880}
                 ]
             ]
@@ -83,11 +83,11 @@
 
         function delFile(fileName) {
             layer.confirm('确定删除？', {icon: 3, title: '提示信息'}, function (index) {
-                $.post("/download/delete",{
-                    fileName : fileName
-                },function(data){
+                $.post("/download/delete", {
+                    fileName: fileName
+                }, function (data) {
                     tableIns.reload();
-                    if (data.code == "0"){
+                    if (data.code == "0") {
                         layer.msg("删除成功");
                     } else {
                         layer.msg(data.msg);
