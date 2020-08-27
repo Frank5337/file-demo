@@ -7,11 +7,25 @@ package com.zbl.file;
  * @Version: $
  */
 public class FileVo {
-    public FileVo(String fileName) {
-        this.fileName = fileName;
-    }
 
     String fileName;
+
+    String fileSize;
+
+    public FileVo(String fileName, String fileSize) {
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+
+    }
+
+    public String getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize;
+    }
+
 
     public String getFileName() {
         return fileName;

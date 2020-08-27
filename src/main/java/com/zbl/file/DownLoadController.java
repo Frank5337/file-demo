@@ -40,9 +40,10 @@ public class DownLoadController {
     public ResultInfo<List<FileVo>> list() {
         File fileList = new File(fileDirectory);
         File[] files = fileList.listFiles();
-        List<String> collect = Arrays.stream(files).map(File::getName).collect(Collectors.toList());
-        List<FileVo> fileVoList = new ArrayList();
-        collect.forEach(c -> fileVoList.add(new FileVo(c)));
+        List<FileVo> fileVoList = new ArrayList<>();
+        for (File file : files) {
+            fileVoList.add(new FileVo(file.getName(), DownloadUtil.fileSizeByteToM(file.length())));
+        }
         return new ResultInfo<>(fileVoList);
     }
 
