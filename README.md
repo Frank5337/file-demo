@@ -1,4 +1,3 @@
-# file-demo file upload &amp; download
 # 根据multipart/from-data & octect-stream 多种方式上传下载文件
 
 ### 上传：
