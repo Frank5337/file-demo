@@ -2,7 +2,6 @@ package com.zbl.file;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,25 +17,7 @@ import java.io.*;
 @RequestMapping("/pdf")
 public class PdfController {
 
-
-    @GetMapping
-    public String toPage() {
-        return "pdf";
-    }
-
-
-
-    @GetMapping("/1")
-    public String toPage1() {
-        return "pdf1";
-    }
-
-    @GetMapping("/2")
-    public String toPage2() {
-        return "pdf2";
-    }
-
-    @RequestMapping("test")
+    @RequestMapping("fetchFile")
     public void fetchFile(HttpServletResponse httpServletResponse) throws IOException {
         File pdf = ResourceUtils.getFile("classpath:file/java.pdf");
         FileInputStream fis = new FileInputStream(pdf);
@@ -45,8 +26,6 @@ public class PdfController {
         bis.read(buffer);
 
         String fileName = pdf.getName();
-        String fileType = "pdf";//fileName.substring(fileName.indexOf(".") + 1);
-
         httpServletResponse.reset();
         // 设置response的Header
         httpServletResponse.addHeader("Content-Disposition",
@@ -54,7 +33,7 @@ public class PdfController {
         httpServletResponse.addHeader("Content-Length", "" + buffer.length);
 
         OutputStream toClient = new BufferedOutputStream(httpServletResponse.getOutputStream());
-        httpServletResponse.setContentType("application/" + fileType);
+        httpServletResponse.setContentType("application/pdf");
         toClient.write(buffer);
         toClient.flush();
         toClient.close();

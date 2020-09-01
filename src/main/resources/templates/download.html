@@ -19,6 +19,10 @@
             <div style="margin-left: 68px;">
                 <a href="upload">to upload page</a>
             </div>
+            <hr>
+            <div style="margin-left: 68px;" class="layui-inline">
+                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">全部删除</a>
+            </div>
         </form>
     </blockquote>
     <table id="fileList" lay-filter="fileList"></table>
@@ -96,6 +100,20 @@
                 })
             })
         }
+
+        //全部删除
+        $(".delAll_btn").on("click",function(){
+            layer.confirm('确定全部删除？', {icon: 3, title: '提示信息'}, function (index) {
+                $.post("/download/deleteAll", function (data) {
+                    if (data.code == "0") {
+                        tableIns.reload();
+                        layer.msg("删除成功");
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                })
+            })
+        });
 
     })
 

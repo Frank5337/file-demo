@@ -55,6 +55,21 @@ public class DownLoadController {
         return new ResultInfo<>("0", "删除成功");
     }
 
+    @PostMapping("deleteAll")
+    @ResponseBody
+    public ResultInfo deleteAll() {
+        File dest = new File(fileDirectory);
+        File[] files = dest.listFiles();
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                file.delete();
+            }
+            return new ResultInfo<>("0", "删除成功");
+        } else {
+            return new ResultInfo<>("1", "已无可删除文件");
+        }
+    }
+
 
     /**
      * 下载
