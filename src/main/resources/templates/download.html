@@ -31,6 +31,7 @@
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="downloadRos">文件名在response头中，传输类型为octect-stream</a>
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="downloadRm">文件名在response头中，传输类型为MIME</a>
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="downloadUos">文件名在uri末尾，传输类型为octect-stream</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="downloadGzip">压缩下载</a>
     <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="delFile">删除</a>
 
 </script>
@@ -56,7 +57,7 @@
                     // {type: "checkbox", fixed: "left", width: 50},
                     {field: 'fileName', title: '文件名', minWidth: 100, align: "center", sort: true},
                     {field: 'fileSize', title: '文件大小', width: 180, align: "center", sort: true},
-                    {fixed: 'right', title: '下载', toolbar: '#opbar', width: 880}
+                    {fixed: 'right', title: '下载', toolbar: '#opbar', width: 950}
                 ]
             ]
         });
@@ -73,6 +74,9 @@
                 case "downloadUos" :
                     // download(data.fileName, 2);
                     window.location.href = "/download/downloadFile/" + data.fileName;
+                    break;
+                case "downloadGzip" :
+                    download(data.fileName, 3);
                     break;
                 case "delFile" :
                     delFile(data.fileName);

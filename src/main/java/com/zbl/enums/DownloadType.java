@@ -12,7 +12,8 @@ public enum DownloadType {
 //    3、文件名在uri末尾，传输类型为octect-stream
     RsOs(0, "文件名在response头中，传输类型为octect-stream"),
     RsMIME(1, "文件名在response头中，传输类型为MIME"),
-    UriOs(2, "文件名在uri末尾，传输类型为octect-stream");
+    UriOs(2, "文件名在uri末尾，传输类型为octect-stream"),
+    GZip(3, "Accept-Encoding:gzip HTTP压缩传输");
 
     private final Integer code;
 
