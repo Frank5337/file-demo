@@ -1,5 +1,7 @@
 server:
   port: 5337
+  tomcat:
+    max-http-post-size: 2048MB
 #thymeleaf配置
 spring:
   thymeleaf:
@@ -10,6 +12,11 @@ spring:
   #静态资源配置
   resources:
     static-locations: classpath:/
-
-fileDirectory: D:\work\develop\vamtoo-git\file-demo\src\main\resources\file\
-#fileDirectory: /home/zbl/file/
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      max-file-size: 2048MB
+      max-request-size: 2048MB
+#fileDirectory: D:\work\develop\vamtoo-git\file-demo\src\main\resources\file\
+fileDirectory: /home/zbl/file/

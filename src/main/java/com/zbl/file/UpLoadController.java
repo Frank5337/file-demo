@@ -104,10 +104,11 @@ public class UpLoadController {
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();
             System.out.println("创建目录" + dest);
-
         }
 
         try {
+            //先删除旧的文件
+            dest.delete();
             file.transferTo(dest);
         } catch (IOException e) {
             System.out.println("文件上传失败" + dest);
