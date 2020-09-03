@@ -10,3 +10,4 @@
 2、文件名在response头中，传输类型为MIME
 3、文件名在uri末尾，传输类型为octect-stream
 4、文件名在url参数中，传输类型为octect-stream（暂时不做）
+5、文件名在response头中，传输类型为octect-stream, http压缩下载
