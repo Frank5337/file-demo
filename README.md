@@ -17,7 +17,7 @@
 4、文件名在response头中，传输类型为octect-stream, http压缩下载
 ```
 
-部署:
+### 部署:
 ```
 修改application.yml 的 fileDirectory 参数 为 linux中文件目录
 先从docker.hub 拉取tomcat 1.9的docker镜像
