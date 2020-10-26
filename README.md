@@ -1,6 +1,7 @@
 # 根据multipart/from-data & octect-stream 多种方式上传下载文件
 
 ### 上传：
+http://localhost:5337/upload
 ```
 1、通过multipart/from-data的传输类型上传一个文件。
 2、通过multipart/from-data的传输类型上传多个文件。
@@ -10,6 +11,7 @@
 ```
 
 ### 上传后文件显示在文件列表中。提供以下下载方式
+http://localhost:5337/download
 ```
 1、文件名在response头中，传输类型为octect-stream
 2、文件名在response头中，传输类型为MIME
