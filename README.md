@@ -29,5 +29,5 @@ docker pull tomcat (默认最新版本)
 -p 端口映射
 -d 后台运行, 守护式进程
 --name docker实例名称 
-docker run -p 5337:8080 -d --name fileDemo -v /home/zbl/fileDemo/webapps:/usr/local/tomcat/webappps tomcat:1.9
+docker run -p 5337:8080 -d --name fileDemo -v /home/zbl/fileDemo/webapps:/usr/local/tomcat/webapps tomcat:1.9
 ```
